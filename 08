@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Jogos</title>
+</head>
+<body>
+
+    <h2>Cadastrar Jogo</h2>
+    <label for="nomeJogo">Nome do Jogo:</label><br>
+    <input type="text" id="nomeJogo" placeholder="Ex: Minecraft"><br><br>
+
+    <label for="plataformaJogo">Plataforma:</label><br>
+    <input type="text" id="plataformaJogo" placeholder="Ex: PC, Xbox, Nintendo"><br><br>
+
+    <button id="btnSalvarJogo">Cadastrar Jogo</button>
+
+    <h3>Meus Jogos:</h3>
+    <ul id="listaJogos"></ul>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+<!--JavaScript-->
+// Selecionando os elementos do DOM
+const inputNome = document.getElementById('nomeJogo');
+const inputPlataforma = document.getElementById('plataformaJogo');
+const btnSalvar = document.getElementById('btnSalvarJogo');
+const ulLista = document.getElementById('listaJogos');
+
+// Array para armazenar nossa lista de objetos (jogos)
+let colecaoJogos = [];
+
+// 1. Carrega os jogos salvos no localStorage assim que a página abre
+window.onload = function() {
+    const dadosSalvos = localStorage.getItem('meusJogos');
+    
+    if (dadosSalvos) {
+        colecaoJogos = JSON.parse(dadosSalvos);
+        exibirJogos(); // Renderiza a lista na tela
+    }
+};
+
+// 2. Evento para cadastrar um novo jogo
+btnSalvar.addEventListener('click', function() {
+    const nome = inputNome.value.trim();
+    const plataforma = inputPlataforma.value.trim();
+    
+    // Validação simples de segurança
+    if (nome !== "" && plataforma !== "") {
+        
+        // Criando o objeto do jogo
+        const novoJogo = {
+            nomeJogo: nome,
+            plataformaJogo: plataforma
+        };
+        
+        // Adiciona o novo objeto ao Array
+        colecaoJogos.push(novoJogo);
+        
+        // Converte o Array atualizado em texto JSON e salva no localStorage
+        localStorage.setItem('meusJogos', JSON.stringify(colecaoJogos));
+        
+        // Atualiza a interface e limpa os campos de digitação
+        exibirJogos();
+        inputNome.value = "";
+        inputPlataforma.value = "";
+    } else {
+        alert('Por favor, preencha todos os campos!');
+    }
+});
+
+// 3. Função para desenhar a lista formatada na tela
+function exibirJogos() {
+    ulLista.innerHTML = ""; // Reseta a lista antiga para evitar repetições
+    
+    colecaoJogos.forEach(function(jogo) {
+        const li = document.createElement('li');
+        
+        // Formatação solicitada: Nome - Plataforma
+        li.textContent = `${jogo.nomeJogo} - ${jogo.plataformaJogo}`;
+        
+        ulLista.appendChild(li);
+    });
+}

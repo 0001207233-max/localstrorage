@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remover Tudo do LocalStorage</title>
+</head>
+<body>
+
+    <h2>Gerenciador de Armazenamento</h2>
+    <p>Clique no botão abaixo para apagar todos os dados salvos neste navegador.</p>
+    
+    <!-- Botão solicitado -->
+    <button id="btnLimpar">Limpar Dados</button>
+
+    <!-- Parágrafo para exibir a mensagem de sucesso -->
+    <p id="mensagemStatus"></p>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+<!--JavaScript-->
+
+// Selecionando os elementos HTML
+const btnLimpar = document.getElementById('btnLimpar');
+const pMensagem = document.getElementById('mensagemStatus');
+
+// Evento de clique para apagar todos os dados
+btnLimpar.addEventListener('click', function() {
+    
+    // Apaga absolutamente TUDO o que estiver salvo no localStorage deste site
+    localStorage.clear();
+    
+    // Exibe a mensagem exatamente como solicitada
+    pMensagem.textContent = 'Dados apagados.';
+    
+    // Opcional: muda a cor do texto para destacar o aviso
+    pMensagem.style.color = 'red';
+});

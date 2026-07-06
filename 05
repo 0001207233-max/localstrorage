@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Nomes - Arrays</title>
+</head>
+<body>
+
+    <label for="novoNome">Digite um nome:</label>
+    <input type="text" id="novoNome" placeholder="Ex: Maria">
+    <button id="btnCadastrar">Cadastrar</button>
+
+    <h3>Lista de Cadastrados:</h3>
+    <ul id="listaNomes"></ul>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+<!--JavaScript-->
+// Selecionando os elementos HTML
+const inputNome = document.getElementById('novoNome');
+const btnCadastrar = document.getElementById('btnCadastrar');
+const ulLista = document.getElementById('listaNomes');
+
+// Array que vai armazenar os nomes na memória do script
+let listaDeNomes = [];
+
+// 1. Carrega os nomes salvos assim que a página abre
+window.onload = function() {
+    const dadosSalvos = localStorage.getItem('nomesCadastrados');
+    
+    // Se existir algo salvo, transforma o texto de volta em Array
+    if (dadosSalvos) {
+        listaDeNomes = JSON.parse(dadosSalvos);
+        desenharLista(); // Atualiza a tela com os nomes recuperados
+    }
+};
+
+// 2. Evento para cadastrar um novo nome
+btnCadastrar.addEventListener('click', function() {
+    const nome = inputNome.value.trim();
+    
+    if (nome !== "") {
+        listaDeNomes.push(nome); // Adiciona o nome no final do Array
+        
+        // Transforma o Array em string de texto para salvar no localStorage
+        localStorage.setItem('nomesCadastrados', JSON.stringify(listaDeNomes));
+        
+        desenharLista(); // Atualiza a tela
+        inputNome.value = ""; // Limpa o campo de entrada
+    } else {
+        alert('Por favor, digite um nome válido.');
+    }
+});
+
+// 3. Função auxiliar para ler o Array e criar as tags <li> na tela
+function desenharLista() {
+    ulLista.innerHTML = ""; // Limpa a lista na tela para não duplicar os itens
+    
+    listaDeNomes.forEach(function(nome) {
+        const li = document.createElement('li');
+        li.textContent = nome;
+        ulLista.appendChild(li); // Adiciona o item dentro da tag <ul>
+    });
+}

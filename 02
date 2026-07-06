@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Exemplo</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    
+    
+    <body>
+        
+    <label for="idadeUsuario">Digite sua idade:</label>
+    <input type="number" id="idadeUsuario" placeholder="Ex: 18">
+
+    <button id="btnSalvarIdade">Salvar</button>
+    <button id="btnCarregarIdade">Carregar</button>
+
+    <p id="exibirIdade"></p>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
+
+<!--JavaScript-->
+
+// Selecionando os elementos do HTML
+const inputIdade = document.getElementById('idadeUsuario');
+const btnSalvar = document.getElementById('btnSalvarIdade');
+const btnCarregar = document.getElementById('btnCarregarIdade');
+const pExibir = document.getElementById('exibirIdade');
+
+// Evento para salvar a idade no localStorage
+btnSalvar.addEventListener('click', function() {
+    const idadeDigitada = inputIdade.value;
+    
+    if (idadeDigitada.trim() !== "") {
+        localStorage.setItem('idadeSalva', idadeDigitada);
+        alert('Idade salva com sucesso!');
+        inputIdade.value = ""; // Limpa o campo de entrada
+    } else {
+        alert('Por favor, insira uma idade válida.');
+    }
+});
+
+// Evento para carregar e exibir a idade formatada
+btnCarregar.addEventListener('click', function() {
+    const idadeRecuperada = localStorage.getItem('idadeSalva');
+    
+    if (idadeRecuperada) {
+        pExibir.textContent = `Sua idade é: ${idadeRecuperada} anos.`;
+    } else {
+        pExibir.textContent = 'Nenhuma idade cadastrada no sistema.';
+    }
+});

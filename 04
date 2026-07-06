@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>
+
+    <label for="corFavorita">Digite sua cor favorita:</label>
+    <input type="text" id="corFavorita" placeholder="Ex: Azul">
+
+    <button id="btnSalvarCor">Salvar</button>
+    <button id="btnCarregarCor">Carregar</button>
+
+    <p id="exibirCor"></p>
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>
+
+<!--JavaScript-->
+// Selecionando os elementos HTML
+const inputCor = document.getElementById('corFavorita');
+const btnSalvar = document.getElementById('btnSalvarCor');
+const btnCarregar = document.getElementById('btnCarregarCor');
+const pExibir = document.getElementById('exibirCor');
+
+// Evento para salvar a cor no localStorage
+btnSalvar.addEventListener('click', function() {
+    const corDigitada = inputCor.value;
+    
+    if (corDigitada.trim() !== "") {
+        localStorage.setItem('corSalva', corDigitada);
+        alert('Cor favorita salva!');
+        inputCor.value = ""; // Limpa o campo
+    } else {
+        alert('Por favor, digite uma cor.');
+    }
+});
+
+// Evento para carregar e exibir a cor favorita
+btnCarregar.addEventListener('click', function() {
+    const corRecuperada = localStorage.getItem('corSalva');
+    
+    if (corRecuperada) {
+        // Exibe o texto exatamente no formato solicitado
+        pExibir.textContent = `Sua cor favorita é ${corRecuperada}.`;
+    } else {
+        pExibir.textContent = 'Nenhuma cor salva ainda.';
+    }
+});

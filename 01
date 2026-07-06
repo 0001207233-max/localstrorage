@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Exemplo</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    
+    
+    <body>
+        <div class="card">
+        <h1> Cadastro </h1>
+        <p>
+            Digite e salver no localStorage
+        </p>
+        <input type="text" id="nome" placeholder="Digite seu nome...">
+        <br>
+        <br>
+        
+        
+        <div class="botoes">
+            <button id="salvar">Salvar 💾</button>
+            <button id="mostrar">Mostrar 👁️‍🗨️</button>
+        </div>
+        
+        <div class="mensagem" id="mensagem"></div>
+        <div id="resultado">Nenhum nome carregado</div>
+        
+    </div>
+    
+    
+    <script src="script.js"></script>
+</body>
+
+</html>
+
+<!--CSS-->
+* {
+    margin: 0;
+    padding: 0;
+    box-shadow: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: linear-gradient(to right, #00c6ff, #0072ff);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.card {
+    background-color: #fff;
+    width: 400px;
+    padding: 70px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    font-size: 16px;
+    outline: none;
+    transition: 0.3s;
+
+}
+
+input:focus {
+    border-color: #0072ff;
+    box-shadow: 0 0 5px rgba(0, 114, 255, 0.5);
+}
+
+.botoes {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 20px;
+    background-color: #0072ff;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#salvar {
+    background-color: #28a745;
+}
+
+#salvar:hover {
+    background-color: #dc3545;
+    transform: scale(1.05);
+}
+
+#mostrar {
+    background-color: #0072ff;
+}
+
+#mostrar:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+#resultado{
+    margin-bottom: 20px;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 20px;
+    min-height: 50px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mensagem {
+    color: #dc3545;
+    font-weight:bold;
+    margin-top: 15px;
+   
+}
+
+<!--JavaScript-->
+
+const salvar = document.getElementById("salvar");
+const mostrar = document.getElementById("mostrar");
+const resultado = document.getElementById("resultado");
+const mensagem = document.getElementById("mensagem");
+const campoNome = document.getElementById("nome");
+
+salvar.addEventListener("click", function () {
+
+    let nome = campoNome.value.trim();
+
+    // Verificar se o lovalStorage tem algum nome salvo
+    if (nome == "") {
+        mensagem.style.color = "red";
+        mensagem.textContent = "Digite o nome";
+        return;
+    }
+
+    localStorage.setItem("nome", nome);
+
+    mensagem.style.color = "green";
+    mensagem.textContent = "Nome salvo com sucesso!";
+
+    //Limpar o Nome
+    campoNome.value = "";
+
+})
+
+mostrar.addEventListener("click", function () {
+    let nomeSalvo = localStorage.getItem("nome");
+    if (nomeSalvo == null) {
+        resultado.textContent = "Nenhum nome salvo!";
+    } else {
+        resultado.textContent = nomeSalvo;
+    }
+
+})

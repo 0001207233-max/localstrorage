@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>
+
+    <label for="mensagemUsuario">Escreva sua mensagem:</label><br>
+    <textarea id="mensagemUsuario" rows="5" cols="30" placeholder="Digite algo aqui..."></textarea><br><br>
+
+    <button id="btnSalvarMensagem">Salvar Mensagem</button>
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>
+
+<!--Java Script-->
+
+// Selecionando os elementos HTML
+const textareaMensagem = document.getElementById('mensagemUsuario');
+const btnSalvar = document.getElementById('btnSalvarMensagem');
+
+// 1. Executa automaticamente assim que a página termina de carregar
+window.onload = function() {
+    const mensagemRecuperada = localStorage.getItem('mensagemPermanente');
+    
+    // Se existir uma mensagem salva, ela é colocada direto no textarea
+    if (mensagemRecuperada) {
+        textareaMensagem.value = mensagemRecuperada;
+    }
+};
+
+// 2. Evento para salvar a mensagem no localStorage ao clicar no botão
+btnSalvar.addEventListener('click', function() {
+    const mensagemTexto = textareaMensagem.value;
+    
+    localStorage.setItem('mensagemPermanente', mensagemTexto);
+    alert('Mensagem salva! Ela continuará aqui mesmo se você atualizar a página.');
+});

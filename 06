@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Filmes</title>
+</head>
+<body>
+
+    <h2>Cadastrar Filme</h2>
+    <label for="nomeFilme">Nome do Filme:</label><br>
+    <input type="text" id="nomeFilme" placeholder="Ex: Interestelar"><br><br>
+
+    <label for="anoFilme">Ano de Lançamento:</label><br>
+    <input type="number" id="anoFilme" placeholder="Ex: 2014"><br><br>
+
+    <button id="btnSalvarFilme">Cadastrar Filme</button>
+
+    <h3>Filmes Cadastrados:</h3>
+    <ul id="listaFilmes"></ul>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+<!--JavaScript-->
+
+// Selecionando os elementos HTML
+const inputNome = document.getElementById('nomeFilme');
+const inputAno = document.getElementById('anoFilme');
+const btnSalvar = document.getElementById('btnSalvarFilme');
+const ulLista = document.getElementById('listaFilmes');
+
+// Array que vai guardar nossa lista de objetos (filmes)
+let catalogoFilmes = [];
+
+// 1. Carrega os filmes ao abrir ou atualizar a página
+window.onload = function() {
+    const dadosSalvos = localStorage.getItem('meusFilmes');
+    
+    if (dadosSalvos) {
+        catalogoFilmes = JSON.parse(dadosSalvos);
+        exibirFilmes(); // Desenha os filmes salvos na tela
+    }
+};
+
+// 2. Evento para cadastrar o filme como objeto
+btnSalvar.addEventListener('click', function() {
+    const nome = inputNome.value.trim();
+    const ano = inputAno.value.trim();
+    
+    // Validação simples para garantir que os dois campos foram preenchidos
+    if (nome !== "" && ano !== "") {
+        
+        // Criando o objeto do filme
+        const novoFilme = {
+            nomeFilme: nome,
+            anoFilme: ano
+        };
+        
+        // Adiciona o objeto dentro do Array principal
+        catalogoFilmes.push(novoFilme);
+        
+        // Salva o Array inteiro atualizado no localStorage (convertido em texto)
+        localStorage.setItem('meusFilmes', JSON.stringify(catalogoFilmes));
+        
+        // Atualiza a tela e limpa os campos
+        exibirFilmes();
+        inputNome.value = "";
+        inputAno.value = "";
+    } else {
+        alert('Por favor, preencha o Nome e o Ano do filme.');
+    }
+});
+
+// 3. Função para percorrer o Array e gerar o HTML na tela
+function exibirFilmes() {
+    ulLista.innerHTML = ""; // Limpa a lista antes de desenhar para não duplicar
+    
+    catalogoFilmes.forEach(function(filme) {
+        const li = document.createElement('li');
+        
+        // Acessa as propriedades do objeto usando o ponto (.)
+        li.textContent = `${filme.nomeFilme} (${filme.anoFilme})`;
+        
+        ulLista.appendChild(li);
+    });
+}
+
